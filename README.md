@@ -56,22 +56,22 @@ The structure below represents the standard architecture used across most Node.j
 Depending on the project's complexity and requirements, some folders may be added, removed, or adapted.
 
 my-node-ts-app/
-├── src/                          # Main source code directory
-│   ├── config/                   # Environment variables and DB credentials
-│   ├── controllers/              # Handles incoming requests and HTTP responses
-│   ├── prisma/                   # PRISMA handlers 
-│   ├── repositories/             # PRISMA repositories 
-│   ├── routes/                   # Routing endpoints
-│   ├── services/                 # Main core business logic and workflows
-│   ├── middlewares/              # Custom global middleware (auth, error catch)
-│   ├── utils/                    # Helper functions and reusable utilities
-│   ├── validators/               # Input data validations (Zod, Joi schemas)
-│   └── app.ts                    # App initialization
-├── tests/                        # Independent unit and integration tests
-├── .env                          # Local private configurations
-├── .gitignore                    # Version control exclusion list
-├── package.json                  # NPM scripts and app dependency tracking
-└── server.ts                     # Root entry point to boot up the server
+├── prisma/                         # PRISMA handlers 
+├── src/                            # Main source code directory
+│   ├── config/                     # Environment variables and DB credentials
+│   ├── types/                      # Types for the project
+│   ├── controllers/                # Handles incoming requests and HTTP responses
+│   ├── models/                     # PRISMA models 
+│   ├── routes/                     # Routing endpoints
+│   ├── services/                   # Main core business logic and workflows
+│   ├── middlewares/                # Custom global middleware (auth, error catch)
+│   ├── utils/                      # Helper functions and reusable utilities
+│   ├── validators/                 # Input data validations (Zod, Joi schemas)
+├── tests/                          # Independent unit and integration tests
+├── .env                            # Local private configurations
+├── .gitignore                      # Version control exclusion list
+├── package.json                    # NPM scripts and app dependency tracking
+└── server.ts                       # Root entry point to boot up the server
 
 ### AI & AUTOMATION
 
