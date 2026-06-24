@@ -5,7 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
+  provider            = "prisma-client"
+  output              = "../generated/prisma"
+  importFileExtension = "ts"
 }
 
 datasource db {
@@ -13,8 +15,94 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Coach {
+  id             Int            @id @default(autoincrement())
+  email          String         @unique
+  name           String
+  password       String
+  created_at     DateTime       @default(now())
+  deleted_at     DateTime?
+  modificated_at DateTime       @updatedAt
+  athletes       Athlete[]
+  trainingPlans  TrainingPlan[]
+}
+
+model Athlete {
+  id                Int                @id @default(autoincrement())
+  name              String
+  email             String             @unique
+  weight            String
+  height            String
+  coachId           Coach              @relation(fields: [coachIdid], references: [id])
+  coachIdid         Int
+  created_at        DateTime           @default(now())
+  deleted_at        DateTime?
+  modificated_at    DateTime           @updatedAt
+  workoutExecutions WorkoutExecution[]
+  trainingPlans     TrainingPlan[]
+}
+
+model Exercise {
+  id               Int               @id @default(autoincrement())
+  name             String
+  description      String
+  muscleGroup      String
+  equipment        String
+  created_at       DateTime          @default(now())
+  deleted_at       DateTime?
+  modificated_at   DateTime          @updatedAt
+  modificated_by   String?
+  workoutExercises WorkoutExercise[]
+}
+
+model TrainingPlan {
+  id             Int       @id @default(autoincrement())
+  name           String
+  objective      String
+  coachId        Coach     @relation(fields: [coachIdid], references: [id])
+  coachIdid      Int
+  AthleteId      Athlete?  @relation(fields: [athleteId], references: [id])
+  athleteId      Int?
+  created_at     DateTime  @default(now())
+  deleted_at     DateTime?
+  modificated_at DateTime  @updatedAt
+  workouts       Workout[]
+}
+
+model Workout {
+  id                Int                @id @default(autoincrement())
+  TrainingPlan      TrainingPlan       @relation(fields: [trainingPlanId], references: [id])
+  trainingPlanId    Int
+  name              String
+  description       String
+  day               String
+  created_at        DateTime           @default(now())
+  deleted_at        DateTime?
+  modificated_at    DateTime           @updatedAt
+  workoutExercises  WorkoutExercise[]
+  workoutExecutions WorkoutExecution[]
+}
+
+model WorkoutExercise {
+  id             Int       @id @default(autoincrement())
+  WorkoutId      Workout   @relation(fields: [workoutId], references: [id])
+  workoutId      Int
+  ExerciseId     Exercise  @relation(fields: [exerciseId], references: [id])
+  exerciseId     Int
+  sets           String
+  reps           String
+  restTime       String
+  created_at     DateTime  @default(now())
+  deleted_at     DateTime?
+  modificated_at DateTime  @updatedAt
+}
+
+model WorkoutExecution {
+  id           Int      @id @default(autoincrement())
+  AthleteId    Athlete  @relation(fields: [athleteId], references: [id])
+  athleteId    Int
+  WorkoutId    Workout  @relation(fields: [workoutId], references: [id])
+  workoutId    Int
+  notes        String
+  completed_at DateTime @default(now())
 }

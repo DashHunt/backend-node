@@ -52,26 +52,32 @@ This repository serves both as a personal portfolio and as a collection of produ
 
 ### PROJECT STRUCTURE
 
-The structure below represents the standard architecture used across most Node.js/TypeScript projects in this repository. 
+The structure below represents the standard architecture (Feature-based architecture) used across most Node.js/TypeScript projects in this repository.  
 Depending on the project's complexity and requirements, some folders may be added, removed, or adapted.
 
 my-node-ts-app/
 ├── prisma/                         # PRISMA handlers 
+│   ├── lib/                        # PRISMA config
 ├── src/                            # Main source code directory
-│   ├── config/                     # Environment variables and DB credentials
-│   ├── types/                      # Types for the project
-│   ├── controllers/                # Handles incoming requests and HTTP responses
-│   ├── models/                     # PRISMA models 
-│   ├── routes/                     # Routing endpoints
-│   ├── services/                   # Main core business logic and workflows
-│   ├── middlewares/                # Custom global middleware (auth, error catch)
-│   ├── utils/                      # Helper functions and reusable utilities
-│   ├── validators/                 # Input data validations (Zod, Joi schemas)
+│   ├── @types/                     # Types for project
+│   ├── shared/                     # Environment variables and DB credentials
+│   │   ├── config/                     # Environment variables and DB credentials
+│   │   ├── types/                      # Types for the project
+│   │   ├── services/                   # Main core business logic and workflows
+│   │   ├── middlewares/                # Custom global middleware (auth, error catch)
+│   │   └── utils/                      # Helper functions and reusable utilities
+│   ├── modules/                    # Modules/features
+│       ├── users/                      # Routes, controllers, models and schemas for this feature
+│       └── coaches/                    # Routes, controllers, models and schemas for this feature
 ├── tests/                          # Independent unit and integration tests
 ├── .env                            # Local private configurations
+├── .example.env                    # Example local private configurations
 ├── .gitignore                      # Version control exclusion list
+├── prisma.config.ts                # Prisma configuration file
 ├── package.json                    # NPM scripts and app dependency tracking
 └── server.ts                       # Root entry point to boot up the server
+├── tsconfig.json                   # TS config file
+├── README.md                       # Project description with FR and NFR requirements for the project.
 
 ### AI & AUTOMATION
 
