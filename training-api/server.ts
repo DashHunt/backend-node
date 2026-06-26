@@ -10,6 +10,7 @@ import {
 
 import CoachModules from "./src/modules/coach/index";
 import LoginModules from "./src/modules/auth/index";
+import AthleteModules from "./src/modules/athlete/index";
 import fastifyJwt from "@fastify/jwt";
 
 const server = fastify();
@@ -38,6 +39,7 @@ server.register(fastifyJwt, {
 });
 
 server.register(CoachModules);
+server.register(AthleteModules);
 server.register(LoginModules);
 
 server.listen({ port: 3333, host: "0.0.0.0" }).then(() => {

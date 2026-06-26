@@ -25,6 +25,7 @@ model Coach {
   modificated_at DateTime       @updatedAt
   athletes       Athlete[]
   trainingPlans  TrainingPlan[]
+  exercises      Exercise[]
 }
 
 model Athlete {
@@ -33,8 +34,8 @@ model Athlete {
   email             String             @unique
   weight            String
   height            String
-  coachId           Coach              @relation(fields: [coachIdid], references: [id])
-  coachIdid         Int
+  coach             Coach              @relation(fields: [coachId], references: [id])
+  coachId           Int
   created_at        DateTime           @default(now())
   deleted_at        DateTime?
   modificated_at    DateTime           @updatedAt
@@ -43,24 +44,26 @@ model Athlete {
 }
 
 model Exercise {
-  id               Int               @id @default(autoincrement())
-  name             String
-  description      String
-  muscleGroup      String
-  equipment        String
-  created_at       DateTime          @default(now())
-  deleted_at       DateTime?
-  modificated_at   DateTime          @updatedAt
-  modificated_by   String?
-  workoutExercises WorkoutExercise[]
+  id                  Int               @id @default(autoincrement())
+  name                String
+  description         String
+  muscleGroup         String
+  equipment           String
+  coach               Coach             @relation(fields: [created_by_coach_id], references: [id])
+  created_by_coach_id Int
+  created_at          DateTime          @default(now())
+  deleted_at          DateTime?
+  modificated_at      DateTime          @updatedAt
+  modificated_by      Int
+  workoutExercises    WorkoutExercise[]
 }
 
 model TrainingPlan {
   id             Int       @id @default(autoincrement())
   name           String
   objective      String
-  coachId        Coach     @relation(fields: [coachIdid], references: [id])
-  coachIdid      Int
+  coach          Coach     @relation(fields: [coachId], references: [id])
+  coachId        Int
   AthleteId      Athlete?  @relation(fields: [athleteId], references: [id])
   athleteId      Int?
   created_at     DateTime  @default(now())

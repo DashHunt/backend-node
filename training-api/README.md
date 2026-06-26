@@ -48,7 +48,6 @@ Recommended:
 * Swagger/OpenAPI
 * Jest
 
-
 # Business Context
 
 A coach manages multiple athletes.
@@ -72,6 +71,7 @@ Each exercise contains execution parameters such as:
 ## FR01 - User Registration
 
 The system must allow user registration.
+The user password must be hashed.
 
 Fields:
 

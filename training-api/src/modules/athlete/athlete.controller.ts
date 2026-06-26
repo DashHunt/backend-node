@@ -1,14 +1,13 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { createCoach, getCoachById, getCoaches, updateCoach } from "./coach.model";
-import { hashPassword } from "../../shared/utils/hashPassword";
+import { createAthlete, getAthletes, getAthletesByID, updateAthlete } from "./athlete.model";
 
 type GetByIdBody = { Body: { id: number } };
-type UpdateBody = { Body: { id: number; name: string; email: string } };
-type CreateBody = { Body: { name: string; email: string; password: string } };
+type UpdateBody = { Body: { id: number; name: string; email: string; height: string; weight: string; } };
+type CreateBody = { Body: { name: string; email: string; height: string; weight: string; coachId: number } };
 
-export class CoachController {
+export class AthleteController {
   public static async getAll(_request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    reply.send(await getCoaches());
+    reply.send(await getAthletes());
   }
 
   public static async getById(
@@ -16,7 +15,7 @@ export class CoachController {
     reply: FastifyReply,
   ): Promise<void> {
     const { id } = request.body;
-    const coach = await getCoachById(id);
+    const coach = await getAthletesByID(id);
 
     if (!coach) {
       return reply.code(404).send({ message: "Coach not found" });
@@ -29,27 +28,24 @@ export class CoachController {
     request: FastifyRequest<UpdateBody>,
     reply: FastifyReply,
   ): Promise<void> {
-    const { id, email, name } = request.body;
-    const user = await getCoachById(id);
+    const { id, email, name, weight, height } = request.body;
+    const athlete = await getAthletesByID(id);
 
-    if (!user) {
+    if (!athlete) {
       return reply.code(404).send({ message: "Coach not found" });
     }
 
-    const updatedCoach = await updateCoach(id, email, name);
-    reply.send(updatedCoach);
+    const updatedAthlete = await updateAthlete(id, email, name, weight, height);
+    reply.send(updatedAthlete);
   }
 
   public static async create(
     request: FastifyRequest<CreateBody>,
     reply: FastifyReply,
   ): Promise<void> {
-    const { name, email, password } = request.body;
+    const { name, email, weight, height, coachId } = request.body;
 
-    // 1. Hash the password (salt rounds = 10)
-    const hashedPassword = await hashPassword(password);
-    await createCoach(name, email, hashedPassword);
-
+    await createAthlete(name, email, weight, height, coachId);
     reply.code(201).send({ message: "Coach created!" });
   }
 }
